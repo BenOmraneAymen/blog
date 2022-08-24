@@ -3,7 +3,7 @@ const Schema = mongoose.Schema({
     title: {type : String , required: true},
     content: {type : String , required: true},
     topics: [],
-    numberOfLikes: {type:Number, default:0},
+    likes:[],
     comments:[],
     writer: {type:String, required:true},
 },

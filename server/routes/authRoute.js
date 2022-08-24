@@ -55,7 +55,45 @@ router.post('/login',async (req,res)=>{
     }catch(err){
         res.send(err)
     }
+}
+)
+
+router.put('/suspend',async (req,res)=>{
+    const guiltyUser = await User.findById(req.body.id)
+    if(guiltyUser){
+        if(guiltyUser.isSuspended)
+        {
+            guiltyUser.isSuspended = false
+            guiltyUser.save()
+            res.send('user unsuspended')
+        }
+        else{
+            guiltyUser.isSuspended = true
+            guiltyUser.save()
+            res.send('user suspended')
+        }
+    }
+    else{
+        res.send('user not found')
+    }
+
 })
+
+router.delete('/',async (req,res)=>{
+    try{
+        const {email} = req.body
+        const user = await User.findOne({email:email})
+        if(user){
+            await User.findByIdAndDelete(user._id)
+            res.send('user deleted')
+        }else{
+            res.send('user not found')
+        }
+    }catch(err){
+        res.send(err)
+    }
+}
+)
 
 
 module.exports = router;
