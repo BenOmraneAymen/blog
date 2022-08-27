@@ -3,9 +3,7 @@ const Schema = mongoose.Schema({
     title: {type : String , required: true},
     content: {type : String , required: true},
     topics: [],
-    likes:[],
-    comments:[],
-    writer: {type:String, required:true},
+    writerId: {type:String, required:true},
 },
 {collections: 'blogs'}
 )
