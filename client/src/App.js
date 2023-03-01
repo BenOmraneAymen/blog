@@ -18,6 +18,7 @@ function App() {
           <Route path="/profile/:suId" element={<Profile />} />
           <Route path="upload" element={<Upload />} />
           <Route path="/admin" element={<Admin_main />} />
+          <Route path="/admin/:id" element={<Admin_main />} />
          <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </Router>

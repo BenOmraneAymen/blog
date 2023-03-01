@@ -43,7 +43,7 @@ export default function Profile(props) {
     <>
       <Navbar />
       <div className="flex flex-col items-center bg-neutral-100 ">
-        <div className="flex flex-col bg-white xl:w-152 w-132 my-2 shadow-lg rounded-lg ">
+        <div className="flex flex-col bg-white xl:w-152 lg:w-132 w-full  my-2 shadow-lg rounded-lg ">
           <div className="h-56 overflow-hidden flex flex-row items-center justify-center rounded-t-lg">
             <img src={login} className="h-full w-full " />
           </div>
@@ -64,9 +64,9 @@ export default function Profile(props) {
             <div className="text-white bg-indigo-600 px-4 py-3 rounded-lg cursor-pointer hover:bg-indigo-500 ease-in-out duration-300">
               Friends
             </div>
-          </div>
+          </div> 
         </div>
-        <div>
+        <div className="xl:w-152 lg:w-132 w-full" >
           {blog.map((blog) => {
             return (
               <FeedItem

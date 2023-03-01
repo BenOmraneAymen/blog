@@ -23,7 +23,7 @@ export default function MainPage() {
   async function getBlogs() {
     const url = `http://localhost:4000/blogs/${id}`;
     await axios.get(url).then((response) => {
-      console.log(response.data)
+      console.log(response.data);
       setBlogs(response.data);
     });
   }
@@ -48,21 +48,21 @@ export default function MainPage() {
     <>
       <ProtectedRoute>
         <Navbar />
-        <div className="flex flex-row justify-between bg-neutral-50 ">
-          <Stack className="flex-none 2xl:w-112 xl:w-104 md:w-100 sm:w-56 pr-10">
+        <div className="flex flex-row bg-neutral-50 ">
+          <Stack className="flex-none 2xl:w-112 xl:w-104">
             {topics?.map((topic) => {
               return <MenuItem name={topic.name} id={topic._id} />;
             })}
           </Stack>
-          <Stack className="flex-shrink w-152">
-            <>
-              <div
-                className={`${
-                  blogs.length > 0 ? "hidden" : "block"
-                } text-gray-700 text-3xl m-6`}
-              >
-                No blogs found
-              </div>
+          <Stack className="w-100">
+            <div
+              className={`${
+                blogs.length > 0 ? "hidden" : "block"
+              } text-gray-700 text-3xl m-6`}
+            >
+              No blogs found
+            </div>
+            <div className="xl:w-7/8 w-full px-10">
               {blogs?.map((blog) => {
                 return (
                   <FeedItem
@@ -76,9 +76,9 @@ export default function MainPage() {
                   />
                 );
               })}
-            </>
+            </div>
           </Stack>
-          <div className="hidden lg:flex flex-col m-2 flex-none xl:w-54">
+          <div className="hidden flex-col m-2 flex-none">
             <h1 className="text-3xl pt-2 text-gray-700">Friends</h1>
             {currentuser?.map((friend) => {
               return (

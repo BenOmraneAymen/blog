@@ -83,7 +83,7 @@ export default function FeedItem(props) {
           <div className="text-sm md:text-md lg:text-xl  font-semibold">
             {props.title}
           </div>
-          <div className="text-xs md:text-sm lg:text-lg text-gray-500 my-2 w-144">
+          <div className="text-xs md:text-sm lg:text-lg text-gray-500 my-2 w-full">
             {props.description}
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function FeedItem(props) {
         src={imgVisible ? serverUrl + "/" + props.image : img}
         className={`${
           imgVisible ? "block" : "hidden"
-        } xl:w-148 lg:w-128 rounded-sm mx-auto`}
+        } w-full rounded-sm mx-auto`}
       />
       <div className="flex flex-row justify-between align-center px-4 py-1 mt-3">
         <div className="flex flex-row align-center justify-center w-24 h-10 cursor-pointer hover:bg-slate-100 " onClick={()=>setLike()}>
