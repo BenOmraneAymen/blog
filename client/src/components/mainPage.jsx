@@ -62,7 +62,7 @@ export default function MainPage() {
             >
               No blogs found
             </div>
-            <div className="xl:w-7/8 w-full px-10">
+            <div className="2xl:w-200 w-full px-5 2xl:mx-16" >
               {blogs?.map((blog) => {
                 return (
                   <FeedItem

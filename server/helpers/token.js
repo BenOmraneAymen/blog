@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 function checkToken(accessToken,jwtSecretKey){
     try {
         const token = accessToken.replace('Bearer ','')
+        console.log(token)
         const verified = jwt.verify(token, jwtSecretKey);
         console.log(verified)
         if(verified){

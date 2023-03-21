@@ -4,7 +4,6 @@ const topic = require('../models/topic');
 router.get('/All',(req,res)=>{
     try{
         topic.find().sort({name:1}).then((result)=>{
-            console.log(result)
             res.send(result)
         })
     }catch(err){

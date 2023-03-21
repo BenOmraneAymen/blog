@@ -11,10 +11,7 @@ router.get('/', (req, res) => {
     User.find({}).then(result => {
         result.forEach(user => {
             user.password = undefined
-            user.isAdmin = undefined
-            user.isSuspended = undefined
         })
-        console.log(result)
         res.send(result);
     }).catch(err => {
         res.send(
@@ -26,17 +23,24 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get("/validation", async (req, res) => {
+router.get("/userValid", async (req, res) => {
     const token = req.headers.authorization
-    console.log(token)
     let result = checkToken(token, process.env.SECRET_KEY)
+    console.log("result",result)
     res.json({ 'validation': result })
 })
+
+router.get("/adminValid", async (req, res) => {
+    const token = req.headers.authorization
+    let result = checkToken(token, process.env.ADMIN_SECRET_KEY)
+    console.log("result",result)
+    res.json({ 'validation': result })
+})
+
 
 router.get('/:userId', async (req, res) => {
     const { userId } = req.params;
     User.findById(req.params.userId).then(result => {
-        console.log(result)
         const user = {
             id: userId,
             username: result.username,
@@ -53,7 +57,6 @@ router.get('/:userId', async (req, res) => {
         )
     })
 })
-
 
 
 router.post('/signUp', async (req, res) => {
@@ -76,24 +79,31 @@ router.post('/signUp', async (req, res) => {
     }
 })
 
+
 router.post('/login', async (req, res) => {
     try {
+        console.log(process.env.SECRET_KEY)
+        console.log(process.env.ADMIN_SECRET_KEY)
         const { email, password } = req.body
         const user = await User.findOne({ email: email })
+        console.log("login -----------------------------------------",user)
         if (user) {
             if (await hashHelpers.checkPassword(password, user.password)) {
-                const accessToken = jwt.sign({ email: email }, process.env.SECRET_KEY, {
-                    expiresIn: '1h',
-                })
+                if(user.isAdmin==true){
+                    console.log("----------------------admin login--------------------------------")
+                    let accessToken = jwt.sign({ email: email }, process.env.ADMIN_SECRET_KEY, {
+                        expiresIn: '1h',
+                    })
+                    res.status(200).send({ token: accessToken, user })
 
-                res.cookie(
-                    'token',
-                    accessToken,
-                    {
-                        httpOnly: true,
-                        origin: 'http://localhost:3000',
-                    }
-                ).status(200).send({ token: accessToken, user })
+                }else{
+                    console.log("----------------------user login--------------------------------")
+                    let accessToken = jwt.sign({ email: email }, process.env.SECRET_KEY, {
+                        expiresIn: '1h',
+                    })
+                    res.status(200).send({ token: accessToken, user })
+
+                }
             } else {
                 res.status(400).send('password incorrect')
             }
@@ -106,8 +116,8 @@ router.post('/login', async (req, res) => {
 }
 )
 
-router.put('/suspend', async (req, res) => {
-    const guiltyUser = await User.findById(req.body.id)
+router.put('/suspend/:id', async (req, res) => {
+    const guiltyUser = await User.findById(req.params.id)
     if (guiltyUser) {
         if (guiltyUser.isSuspended) {
             guiltyUser.isSuspended = false
@@ -125,6 +135,9 @@ router.put('/suspend', async (req, res) => {
     }
 
 })
+
+
+
 
 router.delete('/', async (req, res) => {
     try {

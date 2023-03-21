@@ -56,13 +56,10 @@ router.get('/:id',(req,res)=>{
     try{
         if(req.params.id=='All'){
             Blog.find({}).then((result)=>{
-                console.log("result",result)
                 res.status(200).send(result)
             })
         }else{
-            console.log('working ',req.params.id)
             Blog.find({topics:req.params.id}).then((result)=>{
-                console.log("result",result)
                 res.status(200).send(result)
             })
         }
@@ -73,7 +70,6 @@ router.get('/:id',(req,res)=>{
 
 router.get('/id/:id',(req,res)=>{
     try{
-        console.log(req.params.id)
         Blog.find({writerId:req.params.id}).then((result)=>{
             res.status(200).send(result)
         })
@@ -85,11 +81,9 @@ router.get('/id/:id',(req,res)=>{
 router.post('/create', (req, res) => {
     try{
         let {title, content,topics, author} = req.body;
-        console.log("body",req.body)
-        console.log(title,topics,author)
         if(title && content && author){
             if (req.body.file!=null) {
-                console.log('no file')
+
                 let new_blog = new Blog({
                     title: title,
                     content:content,
@@ -101,7 +95,6 @@ router.post('/create', (req, res) => {
                     res.send('blog created')
                 });
             }else{
-                console.log('file');
                 let image = req.files.file;
                 let t = Date.now();
                 let imageName = image.name.split('.')[0]+t+'.'+image.name.split('.')[1];
@@ -114,7 +107,7 @@ router.post('/create', (req, res) => {
                     writerId:author,
                     image: imageName
                 });
-                console.log(new_blog)
+
                 new_blog.save().then(() => {
                     res.send('blog created')
                 });
