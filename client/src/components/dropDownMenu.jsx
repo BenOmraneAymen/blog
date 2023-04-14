@@ -1,10 +1,14 @@
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import initials from "../helpers/initials";
+import { themeContext } from "../App";
 
 export default function DropDownMenu() {
   const [active, setActive] = useState(true);
+
+  const theme = useContext(themeContext)
+  console.log(theme)
 
   const activate = () => {
     if (active) {
@@ -13,6 +17,8 @@ export default function DropDownMenu() {
       setActive(true);
     }
   };
+
+
   return (
     <div className="">
       <Menu as="div" className="relative inline-block text-left">
@@ -52,14 +58,14 @@ export default function DropDownMenu() {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-0 mt-2 mr-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute right-0 mt-2 mr-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
               <Link to={`/profile/${localStorage.getItem("id")}`}>
                 <Menu.Item>
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? "bg-indigo-600 text-white" : "text-gray-900"
+                        active ? "bg-indigo-600 text-white " : "text-gray-900 dark:text-gray-300"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       <span
@@ -79,7 +85,7 @@ export default function DropDownMenu() {
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? "bg-indigo-600 text-white" : "text-gray-900"
+                        active ? "bg-indigo-600 text-white " : "text-gray-900 dark:text-gray-300"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       <span
@@ -99,7 +105,7 @@ export default function DropDownMenu() {
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? "bg-indigo-600 text-white" : "text-gray-900"
+                        active ? "bg-indigo-600 text-white " : "text-gray-900 dark:text-gray-300"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       <span
@@ -118,8 +124,9 @@ export default function DropDownMenu() {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? "bg-indigo-600 text-white" : "text-gray-900"
+                      active ? "bg-indigo-600 text-white " : "text-gray-900 dark:text-gray-300"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    onClick = {()=>theme.toggleDarkMode()}
                   >
                     <span
                       className={`material-icons mr-2 h-5 w-5 ${
@@ -136,7 +143,7 @@ export default function DropDownMenu() {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? "bg-indigo-600 text-white" : "text-gray-900"
+                      active ? "bg-indigo-600 text-white " : "text-gray-900 dark:text-gray-300"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     <span

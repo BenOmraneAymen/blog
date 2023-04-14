@@ -58,7 +58,6 @@ router.get('/:userId', async (req, res) => {
     })
 })
 
-
 router.post('/signUp', async (req, res) => {
     try {
         const duplicate = await User.findOne({ email: req.body.email })
@@ -69,7 +68,8 @@ router.post('/signUp', async (req, res) => {
             let user = new User({
                 username: req.body.username,
                 password: hashedPassword,
-                email: req.body.email
+                email: req.body.email,
+                isAdmin:req.body.isAdmin
             })
             await user.save()
             res.send('User created')
@@ -82,27 +82,21 @@ router.post('/signUp', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        console.log(process.env.SECRET_KEY)
-        console.log(process.env.ADMIN_SECRET_KEY)
         const { email, password } = req.body
         const user = await User.findOne({ email: email })
-        console.log("login -----------------------------------------",user)
         if (user) {
+            const {_id,username,isSuspended,isAdmin} = user;
             if (await hashHelpers.checkPassword(password, user.password)) {
-                if(user.isAdmin==true){
-                    console.log("----------------------admin login--------------------------------")
+                if(isAdmin==true){
                     let accessToken = jwt.sign({ email: email }, process.env.ADMIN_SECRET_KEY, {
                         expiresIn: '1h',
                     })
-                    res.status(200).send({ token: accessToken, user })
-
+                    res.status(200).send({ token: accessToken,_id,username,email,isSuspended,isAdmin  })
                 }else{
-                    console.log("----------------------user login--------------------------------")
                     let accessToken = jwt.sign({ email: email }, process.env.SECRET_KEY, {
                         expiresIn: '1h',
                     })
-                    res.status(200).send({ token: accessToken, user })
-
+                    res.status(200).send({ token: accessToken,_id,username,email,isSuspended,isAdmin})
                 }
             } else {
                 res.status(400).send('password incorrect')
@@ -135,6 +129,7 @@ router.put('/suspend/:id', async (req, res) => {
     }
 
 })
+
 
 
 

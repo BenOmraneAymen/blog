@@ -25,9 +25,9 @@ router.get('/:id',(req,res)=>{
 
 router.post('/',(req,res)=>{
     try{
-        const {name} = req.body
+        const {name,iconName} = req.body
         const new_topic = new topic({
-            name
+            name,iconName
         });
         new_topic.save().then(()=>{
             res.send('topic created')
@@ -53,13 +53,15 @@ router.put('/',async (req,res)=>{
     }
 })
 
-router.delete('/',async (req,res)=>{
+router.delete('/:id',async (req,res)=>{
     try{
 
-        const {id} = req.body
-        await topic.findByIdAndDelete(id).then(()=>{
+        const id = req.params.id
+        console.log(id)
+        await topic.deleteOne({_id:id}).then(()=>{
             res.send('topic deleted')
         })
+
     }catch(err){
         console.log(err)
     }

@@ -9,7 +9,9 @@ root.render(
 <>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet"></link>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"></link>
+    <body className=''>
     <App />
+    </body>
 </>
 
 );

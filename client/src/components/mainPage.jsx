@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import FeedItem from "./feedItem";
 import FriendContainer from "./friendContainer";
 import MenuItem from "./menuItem";
@@ -7,6 +7,7 @@ import Stack from "./stack";
 import axios from "axios";
 import { useParams } from "react-router";
 import ProtectedRoute from "./protectedRoute";
+
 
 export default function MainPage() {
   const { id } = useParams();
@@ -48,10 +49,10 @@ export default function MainPage() {
     <>
       <ProtectedRoute>
         <Navbar />
-        <div className="flex flex-row bg-neutral-50 ">
+        <div className={`flex flex-row bg-white dark:bg-black`} >
           <Stack className="flex-none 2xl:w-112 xl:w-104">
             {topics?.map((topic) => {
-              return <MenuItem name={topic.name} id={topic._id} />;
+              return <MenuItem name={topic.name} iconName={topic.iconName} id={topic._id} />;
             })}
           </Stack>
           <Stack className="w-100">

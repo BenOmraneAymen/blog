@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema({
-    name: {type : String , required: true},
+    iconName:{type : String , required: true,unique:true},
+    name: {type : String , required: true,unique:true},
 },
 {collections: 'topics'}
 )

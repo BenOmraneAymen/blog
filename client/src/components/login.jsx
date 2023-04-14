@@ -3,25 +3,28 @@ import logo from "../images/logo.png"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
 
 
 export default function Login(){
     const navigate = useNavigate()
     const [email,setEmail] = React.useState("")
     const [password,setPassword] = React.useState("")
-    const handelSubmit = (e) => {
+    const handelSubmit = async (e) => {
         axios.defaults.withCredentials = true;
-        axios.post("http://localhost:4000/login",{
+        await axios.post("http://localhost:4000/login",{
             email:email,
             password:password
         }).then((res) => {
             console.log(res.data)
             localStorage.setItem("token",res.data.token)
-            console.log(res.data.token)
-            localStorage.setItem("username",res.data.user.username)
-            localStorage.setItem("email",res.data.user.email)
-            localStorage.setItem("id",res.data.user._id)
-            if(res.status === 200){
+            localStorage.setItem("username",res.data.username)
+            localStorage.setItem("email",res.data.email)
+            console.log(res.data)
+            localStorage.setItem("id",res.data._id)
+            if(res.data.isAdmin){
+                navigate('/Admin/allUsers')
+            }else{
                 navigate('/nav/All')
             }
         }).catch((err) => {
