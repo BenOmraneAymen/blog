@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import FormData from 'form-data';
@@ -11,7 +10,6 @@ export default function Upload() {
     const [content,setContent] = useState()
     const [selectedTopics,setSelectedTopics] = useState([])
 
-    let author = localStorage.getItem('id')
 
 
     function handleChange(event) {

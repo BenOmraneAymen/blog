@@ -3,26 +3,35 @@ import axios from "axios";
 import { useState, useEffect,useContext } from "react";
 import initials from "../helpers/initials";
 import { Link } from "react-router-dom";
-import { bgColorContext } from "../App";
+import CommentSection from "./commentSection";
 
 export default function FeedItem(props) {
   const imgVisible = props.image ? true : false;
   const serverUrl = "http://localhost:4000";
+  
 
   const [user, setUser] = useState({});
   const [userInitials, setUserInitials] = useState();
   const [likeNumber, setLikeNumber] = useState(0);
+  const [likeState, setLikeState] = useState(true);
+  const [commentState, setCommentState] = useState(false);
 
-  console.log(props.id);
   async function getLike() {
     await axios.get(`http://localhost:4000/like/${props._id}`).then((res) => {
       setLikeNumber(res.data.length);
     });
   }
 
+  async function checkLike(){
+    await axios.get(`http://localhost:4000/like/${props._id}/${localStorage.getItem("id")}`).then((res) => {
+      if(res.data.length!=0){
+        setLikeState(true);
+      }
+    });
+  }
+
   async function setLike() {
-    alert("like");
-    console.log(props.id);
+    if (likeState) {
     await axios
       .post(`http://localhost:4000/like/`, {
         postId: props.id,
@@ -31,6 +40,20 @@ export default function FeedItem(props) {
       .then((res) => {
         console.log(res.data);
       });
+    }
+    else {
+      await axios
+      .delete(`http://localhost:4000/like/${props.id}/${localStorage.getItem("id")}`)
+      .then((res) => {
+        console.log(res.data);
+      });
+    }
+
+  }
+
+  async function likeFun(){
+    setLikeState(!likeState);
+    await setLike()
   }
 
   async function getUser() {
@@ -50,9 +73,14 @@ export default function FeedItem(props) {
   }
 
   useEffect(() => {
+    checkLike();
     getUser();
     getLike();
   }, []);
+
+  useEffect(()=>{
+    getLike();
+  },[likeState])
 
   return (
     <div className={`flex flex-col justify-between align-center p-4 my-2 shadow-lg rounded-md bg-white dark:bg-slate-900`} >
@@ -97,25 +125,26 @@ export default function FeedItem(props) {
           imgVisible ? "block" : "hidden"
         } w-full rounded-sm mx-auto`}
       />
-      <div className="flex flex-row justify-between align-center px-4 py-1 mt-3 dark:text-gray-300">
+      <div className={`flex flex-row justify-between align-center px-4 py-1 mt-3 dark:text-gray-300 text-xl `}>
         <div
-          className="flex flex-row align-center justify-center w-24 h-10 cursor-pointer "
-          onClick={() => setLike()}
+          className="flex flex-row items-center justify-center w-24 h-10 cursor-pointer "
+          onClick={() => likeFun()}
         >
-          <div className="flex flex-row align-center justify-around w-16 h-8 cursor-pointer">
+          <div className={`flex flex-row items-center justify-around w-16 h-8 cursor-pointer ${!likeState ? "text-indigo-500":"text-slate-500 dark:text-gray-300"} `}>
             <span class="material-icons">thumb_up</span>
-            <span>Like</span>
+            <span>{likeNumber}</span>
           </div>
         </div>
-        <div className="flex flex-row align-center justify-around w-16 h-8 cursor-pointer">
+        <div className="flex flex-row items-center justify-around w-16 h-8 cursor-pointer" onClick={()=> setCommentState(true)} >
           <span class="material-icons">chat_bubble</span>
           <span>Comment</span>
         </div>
-        <div className="flex flex-row align-center justify-around w-16 h-8 cursor-pointer">
+        <div className="flex flex-row items-center justify-around w-16 h-8 cursor-pointer">
           <span class="material-icons">reply</span>
           <span>Share</span>
         </div>
       </div>
+      <CommentSection id={props.id}  active={commentState} setActive={setCommentState} />
     </div>
   );
 }

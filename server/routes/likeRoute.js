@@ -4,7 +4,19 @@ const Like = require('../models/like')
 router.get('/:postId',async (req,res)=>{
     try{
         const {postId} = req.params
-        await Like.find({postId:postId}).then((result)=>{
+        await Like.find({}).select({postId:postId}).then((result)=>{
+            res.send(result)
+        })
+    }catch(err){
+        console.log(err)
+    }
+})
+
+router.get('/:postId/:writerId',async (req,res)=>{
+    try{
+        const postId = req.params.postId
+        const writerId = req.params.userId
+        await Like.find({postId:postId,writerId:writerId}).then((result)=>{
             res.send(result)
         })
     }catch(err){
@@ -42,11 +54,11 @@ router.put('/',async (req,res)=>{
     }
     })
 
-router.delete('/',async (req,res)=>{
+router.delete('/:postId/:writerId',async (req,res)=>{
     try{
 
-        const {id} = req.body
-        await Like.findByIdAndDelete(id).then(()=>{
+        const {postId,writerId} = req.params
+        await Like.findOneAndDelete({postId:postId,writerId:writerId}).then(()=>{
             res.send('like deleted')
         })
     }catch(err){

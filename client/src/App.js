@@ -11,7 +11,7 @@ import { createContext, useState,useEffect } from 'react';
 export const themeContext = createContext();
 
 function App() {
-  const [theme, setTheme] = useState("dark")
+  const [theme, setTheme] = useState("light")
 
   const toggleDarkMode = ()=>{
     if(theme==="light"){
