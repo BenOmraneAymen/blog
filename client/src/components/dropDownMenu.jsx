@@ -7,8 +7,8 @@ import { themeContext } from "../App";
 export default function DropDownMenu() {
   const [active, setActive] = useState(true);
 
-  const theme = useContext(themeContext)
-  console.log(theme)
+  const theme = useContext(themeContext);
+  console.log(theme);
 
   const activate = () => {
     if (active) {
@@ -18,6 +18,9 @@ export default function DropDownMenu() {
     }
   };
 
+  const logout = () => {
+    localStorage.clear();
+  };
 
   return (
     <div className="">
@@ -65,11 +68,13 @@ export default function DropDownMenu() {
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? "bg-indigo-600 text-white " : "text-gray-900 dark:text-gray-300"
+                        active
+                          ? "bg-indigo-600 text-white "
+                          : "text-gray-900 dark:text-gray-300"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       <span
-                        className={`material-icons mr-2 h-5 w-5 ${
+                        className={`material-icons text-xl mr-2 h-5 w-5 ${
                           active ? "text-indigo-400" : "text-indigo-600"
                         }`}
                       >
@@ -85,11 +90,13 @@ export default function DropDownMenu() {
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? "bg-indigo-600 text-white " : "text-gray-900 dark:text-gray-300"
+                        active
+                          ? "bg-indigo-600 text-white "
+                          : "text-gray-900 dark:text-gray-300"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       <span
-                        className={`material-icons mr-2 h-5 w-5 ${
+                        className={`material-icons text-xl mr-2 h-5 w-5 ${
                           active ? "text-indigo-400" : "text-indigo-600"
                         }`}
                       >
@@ -105,11 +112,13 @@ export default function DropDownMenu() {
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? "bg-indigo-600 text-white " : "text-gray-900 dark:text-gray-300"
+                        active
+                          ? "bg-indigo-600 text-white "
+                          : "text-gray-900 dark:text-gray-300"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       <span
-                        className={`material-icons mr-2 h-5 w-5 ${
+                        className={`material-icons text-xl mr-2 h-5 w-5 ${
                           active ? "text-indigo-400" : "text-indigo-600"
                         }`}
                       >
@@ -120,43 +129,50 @@ export default function DropDownMenu() {
                   )}
                 </Menu.Item>
               </Link>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-indigo-600 text-white " : "text-gray-900 dark:text-gray-300"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    onClick = {()=>theme.toggleDarkMode()}
-                  >
-                    <span
-                      className={`material-icons mr-2 h-5 w-5 ${
-                        active ? "text-indigo-400" : "text-indigo-600"
-                      }`}
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active
+                          ? "bg-indigo-600 text-white "
+                          : "text-gray-900 dark:text-gray-300"
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      onClick={() => theme.toggleDarkMode()}
                     >
-                      settings
-                    </span>
-                    Settings
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-indigo-600 text-white " : "text-gray-900 dark:text-gray-300"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    <span
-                      className={`material-icons mr-2 h-5 w-5 ${
-                        active ? "text-indigo-400" : "text-indigo-600"
-                      }`}
+                      <span
+                        className={`material-icons text-xl mr-2 h-5 w-5 ${
+                          active ? "text-indigo-400" : "text-indigo-600"
+                        }`}
+                      >
+                        settings
+                      </span>
+                      Settings
+                    </button>
+                  )}
+                </Menu.Item>
+                <Link to="/">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active
+                          ? "bg-indigo-600 text-white "
+                          : "text-gray-900 dark:text-gray-300"
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      onClick={() => logout()}
                     >
-                      logout
-                    </span>
-                    Log out
-                  </button>
-                )}
-              </Menu.Item>
+                      <span
+                        className={`material-icons text-xl mr-2 h-5 w-5 ${
+                          active ? "text-indigo-400" : "text-indigo-600"
+                        }`}
+                      >
+                        logout
+                      </span>
+                      Log out
+                    </button>
+                  )}
+                </Menu.Item>
+              </Link>
             </div>
           </Menu.Items>
         </Transition>

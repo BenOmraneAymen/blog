@@ -5,6 +5,7 @@ import initials from "../helpers/initials";
 
 export default function CommentSection(props) {
   const [comments, setComments] = useState([]);
+  const [comment,setComment] = useState("");
 
   async function getComments() {
     await axios.get(`http://localhost:4000/comment/${props.id}`).then((res) => {
@@ -12,11 +13,22 @@ export default function CommentSection(props) {
     });
   }
 
-  console.log(comments);
+  async function addComment(){
+    await axios.post(`http://localhost:4000/comment/create`,{
+      postId: props.id,
+      writerId: localStorage.getItem("id"),
+      content: comment
+    }).then((res) => {
+      console.log(res.data);
+      setComment("");
+    });
+    getComments();
+    console.log(comment)
+  }
 
   useEffect(() => {
     getComments();
-  }, []);
+  },[]);
 
   return (
     <div
@@ -24,10 +36,10 @@ export default function CommentSection(props) {
         props.active ? "fixed" : "hidden"
       } inset-0 bg-opacity-30 bg-black flex justify-center items-center`}
     >
-      <div className="2xl:w-132 md:w-112 w-100 lg:h-3/4 h-1/2 flex flex-col justify-around items-center bg-white rounded-lg">
+      <div className="2xl:w-132 md:w-112 w-100 lg:h-3/4 h-1/2 flex flex-col justify-around items-center bg-white dark:bg-slate-900  rounded-lg">
         <div className="w-full flex items-center justify-between ">
           <div className="w-1 h-1 bg-white"></div>
-          <div className="text-3xl my-4">Comments</div>
+          <div className="text-3xl my-4 dark:text-white ">Comments</div>
           <div
             className="flex justify-center items-center m-2 h-12 w-12  bg-neutral-300 hover:bg-red-600 text-black rounded-full"
             onClick={() => props.setActive(false)}
@@ -62,11 +74,11 @@ export default function CommentSection(props) {
           })}
         </div>
         <div className="flex justify-around items-center">
-          <div className={`w-12 h-12 rounded-full bg-slate-700 text-white  flex items-center justify-center`}>
+          <div className={`w-12 h-12 rounded-full bg-slate-700 text-white   flex items-center justify-center`}>
             <span>{initials(localStorage.getItem("username"))}</span>
           </div>
-          <input type="text" className="w-108 p-2 m-2 border-2 border-gray-300 rounded-md" />
-          <span className="material-icons text-indigo-600 text-4xl">
+          <input type="text" className="w-108 p-2 m-2 border-2 border-gray-300 dark:bg-slate-400 rounded-md" value={comment} onChange={(e)=>{setComment(e.target.value)}} />
+          <span className="material-icons text-indigo-600 text-4xl" onClick={()=>{addComment()}}>
             send
           </span>
         </div>

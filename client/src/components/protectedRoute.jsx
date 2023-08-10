@@ -20,13 +20,13 @@ export default function ProtectedRoute({children}){
         verify()
     })
 
-    /*const authCheck = setInterval(()=>{
+   /* const authCheck = setInterval(()=>{
         if(auth==true)
         {
             jwt = localStorage.getItem("token")
             verify()
         } 
-    },25000)
-    */
+    },25000)*/
+    
 return auth ? children : <Navigate to='/'/>
 }

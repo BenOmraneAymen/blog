@@ -223,11 +223,11 @@ export default function Admin_main(props) {
                 All blogs
               </div>
             </Link>
-            <Link to="/admin/blogstatistics">
+            {/* <Link to="/admin/blogstatistics">
               <div className="w-36 px-4 py-5 my-4 text-indigo-600 bg-neutral  hover:bg-indigo-600 hover:text-white rounded-lg">
                 Blog Statistics
               </div>
-            </Link>
+            </Link> */}
             <Link to="/admin/topics">
               <div className="w-36 px-4 py-5 my-4 text-indigo-600 bg-neutral  hover:bg-indigo-600 hover:text-white rounded-lg">
                 Topics

@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signup from './components/signup.';
 import Login from './components/login';
@@ -11,18 +10,19 @@ import { createContext, useState,useEffect } from 'react';
 export const themeContext = createContext();
 
 function App() {
-  const [theme, setTheme] = useState("light")
+  const [theme, setTheme] = useState(localStorage.getItem("theme")||"light")
 
   const toggleDarkMode = ()=>{
-    if(theme==="light"){
+    if(localStorage.getItem("theme")==="light"){
       setTheme("dark")
+      localStorage.setItem("theme","dark")
     }else{
       setTheme("light")
+      localStorage.setItem("theme","light")
     }
   }
 
   useEffect(()=>{
-    console.log("useeffect worked")
     if(theme==="light"){
       document.documentElement.classList.remove("dark")
     }else{
@@ -41,6 +41,7 @@ function App() {
             <Route path="nav/:id" element={<MainPage />} />
             <Route path="/profile/:suId" element={<Profile />} />
             <Route path="upload" element={<Upload />} />
+            <Route path="upload/:id" element={<Upload />} />
             <Route path="/admin" element={<Admin_main />} />
             <Route path="/admin/:id" element={<Admin_main />} />
             <Route path="*" element={<h1>404 Not Found</h1>} />

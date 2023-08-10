@@ -16,21 +16,24 @@ export default function Login(){
             email:email,
             password:password
         }).then((res) => {
-            console.log(res.data)
-            localStorage.setItem("token",res.data.token)
-            localStorage.setItem("username",res.data.username)
-            localStorage.setItem("email",res.data.email)
-            console.log(res.data)
-            localStorage.setItem("id",res.data._id)
-            if(res.data.isAdmin){
-                navigate('/Admin/allUsers')
-            }else{
-                navigate('/nav/All')
-            }
+                console.log(res.data)
+                localStorage.setItem("token",res.data.token)
+                localStorage.setItem("username",res.data.username)
+                localStorage.setItem("email",res.data.email)
+                localStorage.setItem("isAdmin",res.data.isAdmin)
+                localStorage.setItem("id",res.data._id)
+                if(res.data.isAdmin){
+                    navigate('/Admin/allUsers')
+                }else{
+                    navigate('/nav/All')
+                }
         }).catch((err) => {
             console.log('err',err)
             if(err.response.status === 400){
                 alert("Wrong password")
+            }
+            if(err.response.status === 401){
+                alert("user is suspended")
             }
             if(err.response.status ===404){
                 alert("Wrong password or email")

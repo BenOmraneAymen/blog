@@ -11,7 +11,6 @@ export default function CommentItem(props) {
 
     async function getUser(){
         await axios.get(`http://localhost:4000/${props.writer}`).then((res) => {
-            console.log(res.data);
             if (res.data != null) {
               setUser(res.data);
               setUserInitials(initials(res.data.username));
@@ -31,8 +30,8 @@ export default function CommentItem(props) {
         >
           <span>{userInitials}</span>
         </div>
-        <div className="w-5/6 mx-3 p-2 text-sm md:text-md lg:text-lg font-medium rounded-md bg-neutral-100 dark:bg-slate-500 dark:text-gray-100">
-          <div className="text-gray-600">{user.username}</div>
+        <div className="w-5/6 mx-3 p-2 text-sm md:text-md lg:text-lg font-medium rounded-md bg-neutral-100 dark:bg-slate-500 dark:text-gray-300">
+          <div className="text-gray-800">{user.username}</div>
           {props.content}
         </div>
       </div>

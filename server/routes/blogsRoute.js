@@ -118,10 +118,10 @@ router.post('/create', (req, res) => {
     }
 })
 
-router.put('/',async (req,res)=>{
+router.put('/:id',async (req,res)=>{
     try{
-
-        let old_blog = await Blog.findById(req.body.id);
+        console.log(req.params.id)
+        let old_blog = await Blog.findById(req.params.id);
         old_blog.title = req.body.title;
         old_blog.content = req.body.content;
         old_blog.topics = req.body.topics;
@@ -135,9 +135,9 @@ router.put('/',async (req,res)=>{
     }
     })
 
-router.delete('/',(req,res)=>{
+router.delete('/:id',(req,res)=>{
     try{
-        Blog.findByIdAndDelete(req.body.id).then(()=>{
+        Blog.findByIdAndDelete(req.params.id).then(()=>{
             res.send('blog deleted')
         }
         )

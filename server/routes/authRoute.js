@@ -4,6 +4,8 @@ const hashHelpers = require('../helpers/hash');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const checkToken = require('../helpers/token');
+const nodemailer = require('nodemailer');
+const template = require('../emailTemplate/template');
 
 dotenv.config();
 
@@ -23,6 +25,45 @@ router.get('/', (req, res) => {
     })
 })
 
+router.put('/forgotPassword/', async (req, res) => {
+    try {
+        const user = await User.findOne({email: req.body.email });
+        if (!user) {
+            res.status(400).json("User not found");
+        }
+        let transporter = nodemailer.createTransport({
+          service: process.env.EMAIL_SERVICE,
+          host: process.env.EMAIL_HOST,
+          port: process.env.EMAIL_PORT,
+          secure: true,
+          auth: {
+            user: process.env.EMAIL_HOST_USER , // email
+            pass: process.env.EMAIL_HOST_PASSWORD, //app password
+          },
+        });
+
+        let password = Math.random().toString(36).slice(-8);
+        let info = transporter.sendMail({
+            from: process.env.EMAIL_HOST_USER, 
+            to: user.email, 
+            subject: "reinitializing password", 
+            //text: `New password: ${password}`,
+            html: template(password), 
+        },async (error, info) => {
+            if(error){
+                console.log('Erroe Occured ' + error);
+            }else {
+                const updatedUser = await User.findByIdAndUpdate(user.id, { password });
+                console.log('Email sent: ' + info.response);
+                res.status(200).json(updatedUser);
+            }
+            return res.end();
+        })
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 router.get("/userValid", async (req, res) => {
     const token = req.headers.authorization
     let result = checkToken(token, process.env.SECRET_KEY)
@@ -33,7 +74,6 @@ router.get("/userValid", async (req, res) => {
 router.get("/adminValid", async (req, res) => {
     const token = req.headers.authorization
     let result = checkToken(token, process.env.ADMIN_SECRET_KEY)
-    console.log("result",result)
     res.json({ 'validation': result })
 })
 
@@ -93,6 +133,9 @@ router.post('/login', async (req, res) => {
                     })
                     res.status(200).send({ token: accessToken,_id,username,email,isSuspended,isAdmin  })
                 }else{
+                    if(isSuspended){
+                        res.status(401).send({isSuspended})
+                    }
                     let accessToken = jwt.sign({ email: email }, process.env.SECRET_KEY, {
                         expiresIn: '1h',
                     })

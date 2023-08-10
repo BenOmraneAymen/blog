@@ -75,7 +75,7 @@ export default function Profile(props) {
                 description={blog.content}
                 image={blog.image}
                 topics={blog.topics}
-                id={blog.id}
+                id={blog._id}
                 writerId={blog.writerId}
                 updatedAt={blog.updatedAt}
               />
