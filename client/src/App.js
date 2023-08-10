@@ -6,6 +6,7 @@ import Profile from './components/profile';
 import Upload from './components/upload';
 import Admin_main from './components/admin_main';
 import { createContext, useState,useEffect } from 'react';
+import ForgotPassword from './components/forgotPassword';
 
 export const themeContext = createContext();
 
@@ -38,6 +39,7 @@ function App() {
           <Routes>
             <Route path="/signup" element={<Signup />} />
             <Route path="/" element={<Login />} />
+            <Route path="forgot" element={<ForgotPassword/>} />
             <Route path="nav/:id" element={<MainPage />} />
             <Route path="/profile/:suId" element={<Profile />} />
             <Route path="upload" element={<Upload />} />
