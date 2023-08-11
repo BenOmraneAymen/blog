@@ -49,13 +49,13 @@ export default function MainPage() {
     <>
       <ProtectedRoute>
         <Navbar />
-        <div className={`flex flex-row bg-white dark:bg-black`} >
-          <Stack className="flex-none 2xl:w-112 xl:w-104">
+        <div className={`flex flex-row h-full bg-white dark:bg-black`} >
+          <div className="flex flex-col h-5/6 overflow-scroll m-2 px-3 py-4 bg-gray-50 dark:bg-gray-800">
             {topics?.map((topic) => {
               return <MenuItem name={topic.name} iconName={topic.iconName} id={topic._id} />;
             })}
-          </Stack>
-          <Stack className="w-100">
+          </div>
+          <div className="w-full h-5/6 overflow-y-scroll">
             <div
               className={`${
                 blogs.length > 0 ? "hidden" : "block"
@@ -63,7 +63,7 @@ export default function MainPage() {
             >
               No blogs found
             </div>
-            <div className="2xl:w-192 xl:w-168 lg:w-140 md:w-120 sm:w-108   2xl:mx-8" >
+            <div className="w-full" >
               {blogs?.map((blog) => {
                 return (
                   <FeedItem
@@ -78,7 +78,7 @@ export default function MainPage() {
                 );
               })}
             </div>
-          </Stack>
+          </div>
           <div className="hidden flex-col m-2 flex-none">
             <h1 className="text-3xl pt-2 text-gray-700">Friends</h1>
             {currentuser?.map((friend) => {

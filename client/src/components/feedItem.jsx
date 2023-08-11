@@ -107,7 +107,7 @@ export default function FeedItem(props) {
 
   return (
     <div
-      className={`flex flex-col justify-between align-center p-4 my-2 shadow-lg rounded-md bg-white dark:bg-slate-900`}
+      className={`flex flex-col justify-between align-center m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 `}
     >
       <div className="flex flex-row justify-between items-center mt-1 mb-3 h-20">
         <Link to={`/profile/${props.writerId}`}>

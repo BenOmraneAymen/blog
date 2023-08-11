@@ -40,7 +40,7 @@ export default function DropDownMenu() {
                 <div className="rounded-full bg-indigo-200 w-8 h-8  md:w-12 md:h-12 flex flex-row items-center justify-center m-1 md:text-lg  text-xs">
                   {initials(localStorage.getItem("username"))}
                 </div>
-                <div className="flex flex-col m-1">
+                <div className="flex flex-col items-start m-1">
                   <div className="text-xs md:text-sm text-white ">
                     {localStorage.getItem("username")}
                   </div>
