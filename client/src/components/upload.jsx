@@ -9,17 +9,15 @@ export default function Upload() {
   const [topics, setTopics] = useState([]);
   const [content, setContent] = useState();
   const [selectedTopics, setSelectedTopics] = useState([]);
-  const {id} = useParams("id");
-  console.log(id)
-  
+  const { id } = useParams("id");
+  console.log(id);
+
   function handleChange(event) {
     setFile(event.target.files[0]);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-
-
 
     const formData = new FormData();
 
@@ -124,11 +122,17 @@ export default function Upload() {
             className="w-100  my-3 rounded-lg border-2  dark:bg-gray-300 border-gray-300 focus:outline-none focus:border-indigo-600"
           ></textarea>
 
-          <input
+          {/* <input
             type="file"
             onChange={handleChange}
             className="block my-2 w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 placeholder-gray-400"
-          />
+          /> */}
+
+          <input
+            type="file"
+            onChange={handleChange}
+            className="block w-full text-sm text-gray-500 border border-gray-300 rounded-md file:mr-4 file:py-3 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-500 file:text-white hover:file:bg-indigo-600"
+          />  
 
           <label className="text-indigo-600 dark:text-gray-200 text-xl my-3  ">
             Topics
